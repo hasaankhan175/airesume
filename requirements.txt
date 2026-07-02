@@ -1,4 +1,3 @@
-torchvision==0.20.1
 aiohappyeyeballs==2.6.2
 aiohttp==3.14.1
 aiosignal==1.4.0
@@ -111,7 +110,9 @@ threadpoolctl==3.6.0
 tiktoken==0.13.0
 tokenizers==0.22.2
 toml==0.10.2
-torch==2.12.1
+# FIXED: Use compatible torch and torchvision for Python 3.14
+torch==2.5.0
+torchvision==0.20.0
 tqdm==4.68.3
 transformers==5.12.1
 typer==0.25.1
