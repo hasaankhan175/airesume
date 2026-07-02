@@ -10,12 +10,12 @@ from config import settings
 
 
 class LLM:
+    """Wrapper for Hugging Face chat completion."""
 
     def __init__(self):
 
         self.client = InferenceClient(
-            provider="hf-inference",
-            api_key=settings.HF_API_TOKEN,
+            api_key=settings.HF_API_TOKEN
         )
 
         self.model = settings.LLM_MODEL
@@ -23,32 +23,19 @@ class LLM:
     def generate(
         self,
         prompt: str,
+        system_prompt: str = "You are an expert ATS recruiter and resume reviewer.",
         max_tokens: int = 1024,
         temperature: float = 0.3,
     ) -> str:
-        """
-        Generate a response from the LLM.
-
-        Parameters
-        ----------
-        prompt : str
-
-        Returns
-        -------
-        str
-        """
 
         try:
 
-            completion = self.client.chat.completions.create(
+            response = self.client.chat.completions.create(
                 model=self.model,
                 messages=[
                     {
                         "role": "system",
-                        "content": (
-                            "You are an expert ATS recruiter, HR specialist, "
-                            "and resume reviewer."
-                        ),
+                        "content": system_prompt,
                     },
                     {
                         "role": "user",
@@ -59,10 +46,7 @@ class LLM:
                 temperature=temperature,
             )
 
-            return completion.choices[0].message.content
+            return response.choices[0].message.content
 
         except Exception as e:
-
-            raise RuntimeError(
-                f"LLM Error: {e}"
-            )
+            raise RuntimeError(f"LLM Error: {e}")

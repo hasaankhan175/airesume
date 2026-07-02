@@ -56,7 +56,7 @@ LOG_DIR = BASE_DIR / "logs"
 EMBEDDING_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
 
 # Hugging Face Model
-LLM_MODEL = "Qwen/Qwen2.5-7B-Instruct"
+LLM_MODEL = "meta-llama/Llama-3.1-8B-Instruct"
 
 # ==========================================================
 # Hugging Face API

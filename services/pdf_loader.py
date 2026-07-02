@@ -1,11 +1,11 @@
+
 """
 PDF Loader Service
 
 This module extracts text and metadata from PDF files using PyMuPDF.
 """
-
 from pathlib import Path
-from typing import Dict
+from typing import Dict, Union
 
 import fitz  # PyMuPDF
 
@@ -14,7 +14,7 @@ class PDFLoader:
     """Extract text and metadata from PDF files."""
 
     @staticmethod
-    def extract_text(pdf_path: Path) -> str:
+    def extract_text(pdf_path: Union[str, Path]) -> str:
         """
         Extract all text from a PDF.
 
@@ -23,12 +23,12 @@ class PDFLoader:
 
         Returns:
             str: Extracted text.
-
+    
         Raises:
             FileNotFoundError: If the PDF does not exist.
             RuntimeError: If the PDF cannot be read.
         """
-
+        pdf_path = Path(pdf_path)
         if not pdf_path.exists():
             raise FileNotFoundError(f"PDF not found: {pdf_path}")
 
@@ -49,6 +49,7 @@ class PDFLoader:
 
     @staticmethod
     def extract_metadata(pdf_path: Path) -> Dict:
+        
         """
         Extract metadata from a PDF.
 
@@ -58,7 +59,7 @@ class PDFLoader:
         Returns:
             dict: PDF metadata.
         """
-
+        pdf_path = Path(pdf_path)
         try:
             document = fitz.open(pdf_path)
 

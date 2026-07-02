@@ -1,519 +1,377 @@
-# AI Resume Analyzer using RAG – Project Specification
+# 🤖 AI Resume Analyzer (RAG-Based ATS System)
 
-## Project Overview
-
-The goal of this project is to build a **production-ready AI Resume Analyzer** using **Retrieval-Augmented Generation (RAG)**. The application will allow users to upload their resumes and compare them against a job description using semantic search, embeddings, and a Large Language Model (LLM).
-
-The project is designed to demonstrate practical skills in:
-
-* Retrieval-Augmented Generation (RAG)
-* Large Language Models (LLMs)
-* Vector Databases
-* Embeddings
-* Prompt Engineering
-* Streamlit Development
-* Production-ready Python Architecture
-* Document Processing
-* AI Application Development
+An AI-powered Resume Analyzer that evaluates resumes against job descriptions using **Retrieval-Augmented Generation (RAG)**, **FAISS Vector Database**, **Sentence Transformers**, and **Large Language Models (LLMs)**. The application calculates an ATS (Applicant Tracking System) score, retrieves similar resumes from a knowledge base, and generates detailed AI-powered feedback to help candidates improve their resumes.
 
 ---
 
-# Technology Stack
+# 🚀 Features
+
+- 📄 Upload Resume (PDF)
+- 💼 Paste Job Description
+- 🤖 AI-powered Resume Analysis
+- 🎯 ATS Score Calculation
+- 📊 Score Breakdown
+- 🔍 Resume Retrieval using FAISS
+- 🧠 Retrieval-Augmented Generation (RAG)
+- 📚 Knowledge Base built from 2,484 resumes
+- 📈 Skill Matching
+- ❌ Missing Skills Detection
+- 💡 Resume Improvement Suggestions
+- 📑 Download Analysis Report
+- 🌐 Interactive Streamlit Web Application
+
+---
+
+# 🏗️ Project Architecture
+
+```
+                Resume PDF
+                     │
+                     ▼
+              PDF Text Extraction
+                     │
+                     ▼
+               Text Cleaning
+                     │
+                     ▼
+              ATS Score Engine
+                     │
+                     ▼
+              Resume Embedding
+                     │
+                     ▼
+              FAISS Retrieval
+                     │
+                     ▼
+         Similar Resume Chunks
+                     │
+                     ▼
+          Prompt Construction
+                     │
+                     ▼
+         Hugging Face LLM
+                     │
+                     ▼
+      AI Resume Analysis Report
+                     │
+                     ▼
+             Streamlit Dashboard
+```
+
+---
+
+# 🛠 Tech Stack
+
+## Programming Language
+
+- Python 3.11+
 
 ## Frontend
 
-* Streamlit
+- Streamlit
 
-## Backend
+## AI / NLP
 
-* Python 3.11
+- Hugging Face Inference API
+- Meta Llama 3.1 Instruct
+- Sentence Transformers
 
-## LLM
+## Retrieval
 
-* Hugging Face Inference API (Free Tier)
-
-### Recommended Models
-
-* Qwen/Qwen2.5-7B-Instruct (Primary)
-* Mistral-7B-Instruct-v0.3 (Fallback)
-* Phi-3 Mini (Optional)
-
----
-
-## Embedding Model
-
-sentence-transformers/all-MiniLM-L6-v2
-
----
-
-## Vector Database
-
-FAISS
-
----
+- FAISS Vector Database
 
 ## PDF Processing
 
-PyMuPDF
+- PyMuPDF (fitz)
+
+## Data Processing
+
+- Pandas
+- NumPy
 
 ---
 
-## Framework
+# 📂 Dataset
 
-LangChain
+This project uses the Resume Dataset containing **2,484 resumes** across multiple professional domains.
 
----
+Examples include:
 
-# Data Source
-
-Knowledge Base
-
-Use the complete dataset of **2,484 resumes** stored as PDF files.
-
-Dataset Location
-
-D:\airesume\data\resumes\data
-
-Each category contains multiple PDF resumes, for example:
-
-ADVOCATE/
-CHEF/
-ENGINEERING/
-ACCOUNTANT/
-HR/
-...
-
-The CSV dataset located at:
-
-D:\airesume\data\resumecsv
-
-will be used only for validation, experimentation, or future model improvements.
+- Accounting
+- Engineering
+- Information Technology
+- HR
+- Healthcare
+- Banking
+- Agriculture
+- Aviation
+- Construction
+- Sales
+- Business Development
+- Teacher
+- Designer
+- Finance
+- Consultant
+- and many more.
 
 ---
 
-# User Workflow
+# 📊 Dataset Statistics
 
-1. User uploads their own Resume (PDF).
-2. User provides a Job Description using either:
-
-   * Text input
-   * PDF upload
-3. The application extracts text from the uploaded resume.
-4. Resume text is cleaned and split into semantic chunks.
-5. Chunks are converted into embeddings.
-6. Relevant chunks are stored and retrieved using FAISS.
-7. The LLM analyzes the retrieved resume content against the job description.
-8. Results are displayed in the Streamlit application.
+| Item | Value |
+|------|------:|
+| Total Resumes | 2,484 |
+| Categories | 24 |
+| Total Chunks | 36,786 |
+| Embedding Model | sentence-transformers/all-MiniLM-L6-v2 |
+| Vector Database | FAISS |
 
 ---
 
-# Features
+# ⚙️ Project Structure
 
-## Resume Summary
+```
+AIResumeAnalyzer/
 
-Generate a concise professional summary of the candidate.
-
----
-
-## ATS Score
-
-Generate an ATS score between 0–100.
-
-The ATS score should be based on:
-
-* Keyword Match
-* Skill Match
-* Experience Match
-* Education Match
-* Semantic Similarity
-
-A hybrid approach will be used:
-
-* Rule-based scoring for transparency.
-* LLM-generated analysis for qualitative feedback.
-
----
-
-## Skill Match Analysis
-
-Display:
-
-Matching Skills
-
-Missing Skills
-
-Suggested Skills
-
----
-
-## Resume Feedback
-
-Analyze:
-
-* Resume Structure
-* Formatting
-* Experience
-* Projects
-* Technical Skills
-* Soft Skills
-
-Provide improvement suggestions.
-
----
-
-## Keyword Analysis
-
-Highlight:
-
-* Present Keywords
-* Missing Keywords
-* Important Recruiter Keywords
-
----
-
-## Interview Question Generator
-
-Generate personalized interview questions based on:
-
-* Resume
-* Job Description
-
----
-
-## Cover Letter Generator (Bonus)
-
-Generate a professional cover letter using:
-
-* Resume
-* Job Description
-
----
-
-## Download Report
-
-Allow users to download the analysis as:
-
-* PDF
-* DOCX
-
----
-
-# RAG Pipeline
-
-User Resume PDF
-
-↓
-
-Text Extraction
-
-↓
-
-Cleaning
-
-↓
-
-Chunking
-
-↓
-
-Embeddings
-
-↓
-
-FAISS Vector Database
-
-↓
-
-Retriever
-
-↓
-
-Relevant Resume Chunks
-
-↓
-
-Prompt Template
-
-↓
-
-Hugging Face LLM
-
-↓
-
-Analysis
-
-↓
-
-Results
-
----
-
-# Project Architecture
-
-The project will follow a production-ready modular architecture with separate modules for:
-
-* Configuration
-* Logging
-* Exception Handling
-* Data Loading
-* PDF Parsing
-* Text Preprocessing
-* Embedding Generation
-* Vector Store Management
-* Retrieval
-* Prompt Templates
-* LLM Integration
-* Resume Analysis
-* ATS Scoring
-* Utilities
-* Streamlit UI
-
-This structure will make the project scalable, maintainable, and suitable for a professional GitHub portfolio.
-
----
-
-# Dataset Strategy
-
-The application will use **all 2,484 PDF resumes** to build the FAISS vector index.
-
-Each resume will:
-
-* Be parsed from PDF.
-* Be cleaned.
-* Be split into chunks.
-* Be embedded using sentence-transformers/all-MiniLM-L6-v2.
-* Be indexed in FAISS.
-
-The vector database will be created once and reused by the application for fast retrieval.
-
----
-
-# Future Enhancements
-
-* Multiple embedding model selection.
-* Resume version comparison.
-* Recruiter dashboard.
-* Batch resume analysis.
-* Resume ranking against multiple job descriptions.
-* MLOps pipeline for automated indexing.
-* Docker deployment.
-* Cloud deployment on Hugging Face Spaces or Streamlit Community Cloud.
-
----
-
-# Expected Learning Outcomes
-
-By completing this project, the following skills will be demonstrated:
-
-* Python Development
-* Streamlit Application Development
-* Retrieval-Augmented Generation (RAG)
-* LangChain
-* Hugging Face Inference API
-* Embedding Models
-* FAISS Vector Search
-* Prompt Engineering
-* PDF Processing
-* NLP Preprocessing
-* AI System Design
-* Modular Software Architecture
-* Production-ready Project Organization
-* Git & GitHub Best Practices
-
-
-
-# AI Resume Analyzer (RAG) - Project Structure
-
-```text
-AI-Resume-Analyzer/
 │
-├── app.py                          # Main Streamlit application
-├── build_index.py                  # Build FAISS index from all PDFs
-├── requirements.txt                # Project dependencies
-├── .env                            # Hugging Face API key
-├── .gitignore
-├── README.md
+├── app.py
 │
 ├── config/
-│   ├── __init__.py
-│   ├── settings.py                 # Paths, constants, model names
-│   └── logging_config.py           # Logging configuration
+│   └── settings.py
 │
 ├── data/
-│   ├── resumecsv/
-│   │   └── Resume.csv
-│   │
-│   └── resumes/
-│       └── data/
-│           ├── ACCOUNTANT/
-│           ├── ADVOCATE/
-│           ├── ...
-│
-├── uploads/                        # User uploaded resumes & JDs
-│
-├── vector_store/
-│   ├── faiss.index
-│   ├── metadata.pkl
-│   └── chunks.pkl
+│   ├── resumes/
+│   └── resumecsv/
 │
 ├── models/
-│   ├── __init__.py
-│   ├── embedding_model.py          # Load embedding model
-│   ├── llm.py                      # Hugging Face API wrapper
-│   └── prompt_templates.py         # All prompts
+│   ├── embedding_model.py
+│   └── llm.py
+│
+├── prompts/
+│   └── ats_prompt.py
 │
 ├── services/
-│   ├── __init__.py
-│   ├── pdf_loader.py               # Read PDF files
-│   ├── text_cleaner.py             # Clean extracted text
-│   ├── chunker.py                  # Split text into chunks
-│   ├── vector_store.py             # Save/load FAISS index
-│   ├── retriever.py                # Retrieve relevant chunks
-│   ├── ats_scorer.py               # Rule-based ATS scoring
-│   ├── analyzer.py                 # Main resume analysis pipeline
-│   ├── keyword_matcher.py          # Keyword extraction & matching
-│   ├── skill_matcher.py            # Skill comparison
-│   ├── report_generator.py         # PDF/DOCX report generation
-│   └── job_description_parser.py   # Parse JD text/PDF
+│   ├── analyzer.py
+│   ├── ats_scorer.py
+│   ├── chunker.py
+│   ├── pdf_loader.py
+│   ├── retriever.py
+│   ├── text_cleaner.py
+│   └── vector_store.py
 │
-├── utils/
-│   ├── __init__.py
-│   ├── helpers.py                  # Common helper functions
-│   ├── file_handler.py             # File saving/loading
-│   ├── validators.py               # Input validation
-│   └── logger.py                   # Logger utility
+├── vector_db/
 │
-├── assets/
-│   ├── logo.png
-│   └── style.css
+├── build_index.py
 │
-├── notebooks/
-│   ├── data_exploration.ipynb
-│   └── embedding_experiments.ipynb
+├── requirements.txt
 │
-└── tests/
-    ├── test_pdf_loader.py
-    ├── test_chunker.py
-    ├── test_embeddings.py
-    ├── test_vector_store.py
-    └── test_analyzer.py
+└── README.md
 ```
 
-# File Responsibilities
+---
 
-### Root Files
+# 🔄 Workflow
 
-* `app.py` → Streamlit user interface.
-* `build_index.py` → Reads all 2,484 PDFs, creates embeddings, and saves the FAISS index.
-* `requirements.txt` → Python dependencies.
-* `.env` → Hugging Face API key.
-* `README.md` → Project documentation.
+## Step 1
+
+Upload a Resume (PDF)
+
+↓
+
+## Step 2
+
+Extract text using PyMuPDF
+
+↓
+
+## Step 3
+
+Clean and preprocess the resume
+
+↓
+
+## Step 4
+
+Calculate ATS score
+
+↓
+
+## Step 5
+
+Generate embedding
+
+↓
+
+## Step 6
+
+Retrieve similar resume chunks from FAISS
+
+↓
+
+## Step 7
+
+Build RAG prompt
+
+↓
+
+## Step 8
+
+Generate AI analysis using Hugging Face LLM
+
+↓
+
+## Step 9
+
+Display results in Streamlit
 
 ---
 
-### config/
+# 🎯 ATS Scoring
 
-Stores all configuration values.
+The ATS Score is calculated using a weighted scoring approach.
 
-* `settings.py`
+| Component | Weight |
+|-----------|--------:|
+| Skills Match | 35% |
+| Keyword Match | 20% |
+| Experience | 20% |
+| Education | 10% |
+| Projects | 10% |
+| Certifications | 5% |
 
-  * Dataset paths
-  * Upload folder
-  * Model names
-  * Chunk size
-  * Chunk overlap
-  * API settings
-* `logging_config.py`
-
-  * Configure application logging.
-
----
-
-### models/
-
-Contains AI model initialization.
-
-* `embedding_model.py`
-
-  * Loads the SentenceTransformer embedding model.
-* `llm.py`
-
-  * Connects to the Hugging Face Inference API.
-* `prompt_templates.py`
-
-  * Stores prompts for:
-
-    * ATS analysis
-    * Resume summary
-    * Skill analysis
-    * Interview questions
-    * Cover letter
+Total Score = **100**
 
 ---
 
-### services/
+# 🧠 Retrieval-Augmented Generation (RAG)
 
-Core business logic.
+Instead of asking the language model directly, the system first retrieves relevant resume examples from a FAISS vector database.
 
-* `pdf_loader.py`
+The retrieved context is then combined with:
 
-  * Extract text from PDFs using PyMuPDF.
-* `text_cleaner.py`
+- Candidate Resume
+- Job Description
 
-  * Remove unnecessary spaces, symbols, and formatting.
-* `chunker.py`
-
-  * Split text into overlapping chunks.
-* `vector_store.py`
-
-  * Create, save, and load the FAISS index.
-* `retriever.py`
-
-  * Retrieve the most relevant chunks.
-* `ats_scorer.py`
-
-  * Calculate rule-based ATS score.
-* `keyword_matcher.py`
-
-  * Compare keywords between resume and job description.
-* `skill_matcher.py`
-
-  * Match technical and soft skills.
-* `job_description_parser.py`
-
-  * Parse text or PDF job descriptions.
-* `analyzer.py`
-
-  * Orchestrates the entire RAG pipeline.
-* `report_generator.py`
-
-  * Export analysis as PDF or DOCX.
+This enables the language model to generate more context-aware, relevant, and accurate resume feedback.
 
 ---
 
-### utils/
+# 📋 AI Analysis Includes
 
-Reusable helper functions.
-
-* `helpers.py`
-* `file_handler.py`
-* `validators.py`
-* `logger.py`
-
----
-
-### vector_store/
-
-Stores generated vector data.
-
-* `faiss.index`
-* `metadata.pkl`
-* `chunks.pkl`
-
-These files are generated automatically after running `build_index.py`.
+- ATS Score
+- Resume Summary
+- Strengths
+- Weaknesses
+- Matched Skills
+- Missing Skills
+- Missing Keywords
+- Experience Analysis
+- Education Analysis
+- Project Analysis
+- Resume Improvement Suggestions
+- Final Hiring Recommendation
 
 ---
 
-### tests/
+# 🌐 Streamlit Dashboard
 
-Contains unit tests for major modules to ensure reliability and maintainability.
+The web application provides:
+
+- Resume Upload
+- Job Description Input
+- ATS Dashboard
+- AI Resume Analysis
+- Downloadable Report
+
+---
+
+# 📦 Installation
+
+Clone the repository:
+
+```bash
+git clone https://github.com/yourusername/AIResumeAnalyzer.git
+
+cd AIResumeAnalyzer
+```
+
+Create a Conda environment:
+
+```bash
+conda create -n resume-rag python=3.11
+
+conda activate resume-rag
+```
+
+Install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+# ▶️ Run the Application
+
+Build the FAISS index:
+
+```bash
+python build_index.py
+```
+
+Launch the Streamlit app:
+
+```bash
+streamlit run app.py
+```
+
+---
+
+# 📈 Future Improvements
+
+- Resume Rewriter
+- Cover Letter Generator
+- Interview Question Generator
+- Resume Ranking
+- Recruiter Dashboard
+- PDF Report Export
+- Multi-Resume Comparison
+- Job Recommendation Engine
+- Docker Deployment
+- Cloud Deployment
+
+---
+
+# 💡 Learning Outcomes
+
+Through this project, I gained hands-on experience with:
+
+- Retrieval-Augmented Generation (RAG)
+- Semantic Search
+- Vector Databases (FAISS)
+- Sentence Embeddings
+- Hugging Face Inference API
+- Prompt Engineering
+- Resume Parsing
+- ATS Scoring Systems
+- PDF Processing
+- Streamlit Application Development
+- End-to-End AI Application Development
+
+---
+
+# 📄 License
+
+This project is intended for educational and portfolio purposes.
+
+---
+
+# 👨‍💻 Author
+
+**Hasaan**
+
+AI | Data Science | Machine Learning | NLP | Generative AI
+
+---
+
+## ⭐ If you found this project useful, consider giving it a star on GitHub!
